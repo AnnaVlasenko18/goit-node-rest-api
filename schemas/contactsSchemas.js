@@ -2,14 +2,21 @@ const Joi = require("joi");
 
 const createContactSchema = Joi.object({
   name: Joi.string().required(),
-  email: Joi.string().required(),
-  phone: Joi.string().required(),
+  email: Joi.string().email({ minDomainSegments: 2 }).required(),
+  phone: Joi.string()
+    .pattern(/\d/)
+    .messages({
+      "string.pattern.base": "Phone must only contain digits",
+    })
+    .min(1),
 });
 
 const updateContactSchema = Joi.object({
-  name: Joi.string().required(),
-  email: Joi.string().required(),
-  phone: Joi.string().required(),
+  name: Joi.string(),
+  email: Joi.string().email({ minDomainSegments: 2 }),
+  phone: Joi.string().pattern(/\d/).messages({
+    "string.pattern.base": "Phone must only contain digits",
+  }),
 });
 
 module.exports = { createContactSchema, updateContactSchema };
