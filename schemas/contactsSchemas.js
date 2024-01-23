@@ -8,6 +8,7 @@ const createContactSchema = Joi.object({
     .messages({
       "string.pattern.base": "Phone must only contain digits",
     })
+
     .min(1)
     .required(),
 });
