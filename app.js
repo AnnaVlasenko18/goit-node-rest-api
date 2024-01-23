@@ -1,18 +1,17 @@
 const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
-
 const mongoose = require("mongoose");
+require("dotenv").config();
 
-const DB_HOST =
-  "mongodb+srv://Anna:LwdLqgwPv2gs84A@cluster0.a4jpjiq.mongodb.net/db-contacts?retryWrites=true&w=majority";
+const { DB_HOST, PORT = 3000 } = process.env;
 
 mongoose.set("strictQuery", true);
 
 mongoose
   .connect(DB_HOST)
   .then(() => {
-    app.listen(3000);
+    app.listen(PORT);
     return console.log("Database connection successful");
   })
 
