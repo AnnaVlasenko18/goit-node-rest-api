@@ -1,7 +1,5 @@
 const { Schema, model } = require("mongoose");
 
-// const HttpError = require("../helpers/HttpError.js");
-
 const userSchema = Schema(
   {
     password: {
@@ -25,4 +23,4 @@ const userSchema = Schema(
 
 const User = model("user", userSchema);
 
-module.exports = { userSchema, User };
+module.exports = { User };

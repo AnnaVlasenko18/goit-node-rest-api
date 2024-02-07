@@ -13,7 +13,19 @@ const {
 
 const getAllContacts = async (req, res, next) => {
   try {
-    const result = await Contact.find();
+    const { _id: owner } = req.user;
+    const { page = 1, limit = 10, favorite } = req.query;
+    const skip = (page - 1) * limit;
+
+    const favoriteFilter = { owner };
+    if (favorite) {
+      favoriteFilter.favorite = favorite;
+    }
+
+    const result = await Contact.find(favoriteFilter, "-createdAt -updatedAt", {
+      skip,
+      limit,
+    }).populate("owner", "email");
     res.json(result);
   } catch (error) {
     next(error);
@@ -52,7 +64,9 @@ const createContact = async (req, res, next) => {
     if (error) {
       throw HttpError(400, error.message);
     }
-    const result = await Contact.create(req.body);
+
+    const { _id: owner } = req.user;
+    const result = await Contact.create({ ...req.body, owner });
     res.status(201).json(result);
   } catch (error) {
     next(error);

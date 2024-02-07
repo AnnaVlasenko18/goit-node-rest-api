@@ -1,7 +1,5 @@
 const { Schema, model } = require("mongoose");
 
-const HttpError = require("../helpers/HttpError.js");
-
 const contactSchema = Schema(
   {
     name: {

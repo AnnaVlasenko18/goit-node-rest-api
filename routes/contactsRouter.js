@@ -2,6 +2,7 @@ const express = require("express");
 
 const { isValidId } = require("../helpers/isValidate");
 
+const { authenticate } = require("../helpers/authenticate");
 const {
   getAllContacts,
   getOneContact,
@@ -13,16 +14,16 @@ const {
 
 const contactsRouter = express.Router();
 
-contactsRouter.get("/", getAllContacts);
-
-contactsRouter.get("/:id", isValidId, getOneContact);
-
-contactsRouter.delete("/:id", isValidId, deleteContact);
-
-contactsRouter.post("/", createContact);
-
-contactsRouter.put("/:id", isValidId, updateContact);
-
-contactsRouter.patch("/:id/favorite", isValidId, updateStatusFavorite);
+contactsRouter.get("/", authenticate, getAllContacts);
+contactsRouter.get("/:id", authenticate, isValidId, getOneContact);
+contactsRouter.delete("/:id", authenticate, isValidId, deleteContact);
+contactsRouter.post("/", authenticate, createContact);
+contactsRouter.put("/:id", authenticate, isValidId, updateContact);
+contactsRouter.patch(
+  "/:id/favorite",
+  authenticate,
+  isValidId,
+  updateStatusFavorite
+);
 
 module.exports = contactsRouter;
