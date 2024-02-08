@@ -34,8 +34,10 @@ const getAllContacts = async (req, res, next) => {
 
 const getOneContact = async (req, res, next) => {
   try {
-    const { id } = req.params;
-    const result = await Contact.findById(id);
+    const { id: _id } = req.params;
+    const { _id: owner } = req.user;
+
+    const result = await Contact.findById({ _id: owner });
     if (!result) {
       throw HttpError(404);
     }
@@ -47,8 +49,10 @@ const getOneContact = async (req, res, next) => {
 
 const deleteContact = async (req, res, next) => {
   try {
-    const { id } = req.params;
-    const result = await Contact.findByIdAndDelete(id);
+    const { id: _id } = req.params;
+    const { _id: owner } = req.user;
+
+    const result = await Contact.findByIdAndDelete({ _id: owner });
     if (!result) {
       throw HttpError(404);
     }
@@ -85,8 +89,11 @@ const updateContact = async (req, res, next) => {
       throw HttpError(400, error.message);
     }
 
-    const { id } = req.params;
-    const result = await Contact.findByIdAndUpdate(id, req.body, { new: true });
+    const { id: _id } = req.params;
+    const { _id: owner } = req.user;
+    const result = await Contact.findByIdAndUpdate({ _id: owner }, req.body, {
+      new: true,
+    });
     if (!result) {
       throw HttpError(404);
     }
@@ -98,8 +105,6 @@ const updateContact = async (req, res, next) => {
 
 const updateStatusFavorite = async (req, res, next) => {
   try {
-    const { id } = req.params;
-
     if (!req.body.hasOwnProperty("favorite")) {
       throw HttpError(400, "missing field favorite");
     }
@@ -109,7 +114,10 @@ const updateStatusFavorite = async (req, res, next) => {
       throw HttpError(400, error.message);
     }
 
-    const result = await updateStatusContact(id, req.body);
+    const { id: _id } = req.params;
+    const { _id: owner } = req.user;
+
+    const result = await updateStatusContact({ _id: owner }, req.body);
 
     if (!result) {
       throw HttpError(404);
