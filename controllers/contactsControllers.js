@@ -2,9 +2,7 @@ const {
   Contact,
   updateStatusContact,
 } = require("../services/contactsServices.js");
-
 const HttpError = require("../helpers/HttpError.js");
-
 const {
   createContactSchema,
   updateContactSchema,

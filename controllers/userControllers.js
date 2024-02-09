@@ -9,13 +9,9 @@ const {
   loginScherma,
   subscriptionScherma,
 } = require("../schemas/usersSchemas.js");
-
 const { User } = require("../services/usersServicer.js");
-
 const HttpError = require("../helpers/HttpError.js");
-
 const { SECRET_KEY } = process.env;
-
 const avatarsDir = path.join(__dirname, "../", "public", "avatars");
 
 const register = async (req, res, next) => {

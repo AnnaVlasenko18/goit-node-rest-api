@@ -1,7 +1,7 @@
 const express = require("express");
+const contactsRouter = express.Router();
 
 const { isValidId } = require("../helpers/isValidate");
-
 const { authenticate } = require("../helpers/authenticate");
 const {
   getAllContacts,
@@ -11,8 +11,6 @@ const {
   updateContact,
   updateStatusFavorite,
 } = require("../controllers/contactsControllers");
-
-const contactsRouter = express.Router();
 
 contactsRouter.get("/", authenticate, getAllContacts);
 contactsRouter.get("/:id", authenticate, isValidId, getOneContact);
