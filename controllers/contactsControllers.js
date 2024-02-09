@@ -37,7 +37,7 @@ const getOneContact = async (req, res, next) => {
     const { id: _id } = req.params;
     const { _id: owner } = req.user;
 
-    const result = await Contact.findById({ _id: owner });
+    const result = await Contact.findOne({ _id, owner });
     if (!result) {
       throw HttpError(404);
     }
@@ -52,7 +52,7 @@ const deleteContact = async (req, res, next) => {
     const { id: _id } = req.params;
     const { _id: owner } = req.user;
 
-    const result = await Contact.findByIdAndDelete({ _id: owner });
+    const result = await Contact.findOneAndDelete({ _id, owner });
     if (!result) {
       throw HttpError(404);
     }
@@ -91,13 +91,13 @@ const updateContact = async (req, res, next) => {
 
     const { id: _id } = req.params;
     const { _id: owner } = req.user;
-    const result = await Contact.findByIdAndUpdate({ _id: owner }, req.body, {
+    const result = await Contact.findOneAndUpdate({ _id, owner }, req.body, {
       new: true,
     });
     if (!result) {
       throw HttpError(404);
     }
-    res.json(result);
+    res.status(200).json(result);
   } catch (error) {
     next(error);
   }
@@ -117,7 +117,9 @@ const updateStatusFavorite = async (req, res, next) => {
     const { id: _id } = req.params;
     const { _id: owner } = req.user;
 
-    const result = await updateStatusContact({ _id: owner }, req.body);
+    const result = await Contact.findOneAndUpdate({ _id, owner }, req.body, {
+      new: true,
+    });
 
     if (!result) {
       throw HttpError(404);
