@@ -9,8 +9,9 @@ const {
   updateAvatar,
 } = require("../controllers/userControllers.js");
 const { authenticate } = require("../helpers/authenticate");
-const { upload } = require("../helpers/upload.js");
-const { sizeChange } = require("../helpers/sizeChange.js");
+const { upload } = require("../helpers/upload");
+const { sizeChange } = require("../helpers/sizeChange");
+const { isFileExits } = require("../helpers/isFileExist");
 
 usersRouter.post("/register", register);
 usersRouter.post("/login", login);
@@ -20,8 +21,9 @@ usersRouter.patch(
   "/avatars",
   authenticate,
   upload.single("avatar"),
-  updateAvatar,
-  sizeChange
+  isFileExits,
+  sizeChange,
+  updateAvatar
 );
 
 module.exports = usersRouter;

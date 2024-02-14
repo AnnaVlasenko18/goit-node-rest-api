@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 const gravatar = require("gravatar");
 const path = require("path");
 const fs = require("fs/promises");
+const Jimp = require("jimp");
 
 const {
   registerScherma,
@@ -105,6 +106,7 @@ const updateAvatar = async (req, res) => {
   const { path: tmpUpload, originalname } = req.file;
   const filename = `${_id}_${originalname}`;
   const resultUpload = path.join(avatarsDir, filename);
+
   await fs.rename(tmpUpload, resultUpload);
   const avatarURL = path.join("avatars", filename);
   await User.findByIdAndUpdate(_id, { avatarURL });
