@@ -16,6 +16,10 @@ const { isFileExits } = require("../helpers/isFileExist");
 
 usersRouter.post("/register", register);
 usersRouter.get("/verify/:verificationToken", verifyEmail);
+<<<<<<< Updated upstream
+=======
+usersRouter.post("/verify");
+>>>>>>> Stashed changes
 usersRouter.post("/login", login);
 usersRouter.get("/current", authenticate, getCurrent);
 usersRouter.post("/logout", authenticate, logout);

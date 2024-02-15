@@ -12,10 +12,18 @@ const {
   subscriptionScherma,
 } = require("../schemas/usersSchemas.js");
 const { User } = require("../services/usersServicer.js");
+<<<<<<< Updated upstream
 const HttpError = require("../helpers/HttpError");
 const { SECRET_KEY, BASE_URL } = process.env;
 const sendEmail = require("../helpers/sendEmail.js");
 
+=======
+const HttpError = require("../helpers/HttpError.js");
+const sendEmail = require("../helpers/sendEmail.js");
+
+const { SECRET_KEY, BASE_URL } = process.env;
+
+>>>>>>> Stashed changes
 const avatarsDir = path.join(__dirname, "../", "public", "avatars");
 
 const register = async (req, res, next) => {
@@ -63,6 +71,20 @@ const register = async (req, res, next) => {
   }
 };
 
+const verifyEmail = async (req, res) => {
+  const { verificationToken } = req.params;
+  const user = await User.findOne({ verificationToken });
+  if (!user) {
+    throw HttpError(404, "User not found");
+  }
+
+  await User.findByIdAndUpdate(user._id, {
+    verify: true,
+    verificationToken: "",
+  });
+  res.status(200).json({ massage: "Verification successful" });
+};
+
 const login = async (req, res, next) => {
   try {
     const { error } = await loginScherma.validate(req.body);
@@ -86,6 +108,7 @@ const login = async (req, res, next) => {
     if (!passwordCompare) {
       throw HttpError(401, "Email or password wrong");
     }
+
     const { _id: id } = user;
 
     const payload = {
