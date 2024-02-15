@@ -8,6 +8,7 @@ const {
   logout,
   updateAvatar,
   verifyEmail,
+  resendVerifyEmail,
 } = require("../controllers/userControllers.js");
 const { authenticate } = require("../helpers/authenticate");
 const { upload } = require("../helpers/upload");
@@ -16,10 +17,7 @@ const { isFileExits } = require("../helpers/isFileExist");
 
 usersRouter.post("/register", register);
 usersRouter.get("/verify/:verificationToken", verifyEmail);
-<<<<<<< Updated upstream
-=======
-usersRouter.post("/verify");
->>>>>>> Stashed changes
+usersRouter.post("/verify", resendVerifyEmail);
 usersRouter.post("/login", login);
 usersRouter.get("/current", authenticate, getCurrent);
 usersRouter.post("/logout", authenticate, logout);
